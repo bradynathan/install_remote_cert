@@ -1,0 +1,24 @@
+---
+
+- include_vars: ../vars/{{ ansible_distribution }}.yml
+
+- name: Check if certificate is trusted
+  shell: echo "Q" | openssl s_client -showcerts -connect {{ cert_remote_server }}:{{ cert_remote_port }}
+  changed_when: False
+  register: certificate_check
+
+- debug:
+    var: certificate_check
+
+- name: Install untrusted certificate
+  block:
+    - name: Place certificate in the anchors
+      template:
+        src: certificate.crt.j2
+        dest: "{{ cert_anchors_path }}{{ cert_remote_server }}.crt"
+        mode: 0644
+        owner: root
+        group: root
+    - name: Update the trust
+      shell: '{{ cert_update_command }}'
+  when: not ( certificate_check.stdout | search("Verify return code\S\s+0") )

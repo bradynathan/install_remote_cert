@@ -1,0 +1,5 @@
+---
+
+cert_anchors_path: /etc/pki/ca-trust/source/anchors/
+
+cert_update_command: update-ca-trust

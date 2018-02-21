@@ -1,0 +1,7 @@
+---
+- hosts: all
+  vars:
+    cert_remote_server: www.google.com
+    cert_remote_port: 443
+  roles:
+    - ../../install_remote_cert

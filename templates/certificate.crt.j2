@@ -1,0 +1,12 @@
+{% set vars = {'print_line': False} %}
+{% for line in certificate_check.stdout_lines %}
+{% if 'BEGIN CERTIFICATE' in line %}
+{% set _ = vars.update({'print_line': True}) %}
+{% endif %}
+{% if vars.print_line %}
+{{ line }}
+{% endif %}
+{% if 'END CERTIFICATE' in line %}
+{% set _ = vars.update({'print_line': False}) %}
+{% endif %}
+{% endfor %}

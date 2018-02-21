@@ -1,0 +1,5 @@
+---
+
+cert_anchors_path: /usr/share/ca-certificates/
+
+cert_update_command: update-ca-certificates
